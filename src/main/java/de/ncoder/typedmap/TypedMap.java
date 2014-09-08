@@ -1,9 +1,6 @@
 package de.ncoder.typedmap;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class TypedMap<V> implements Map<Key<? extends V>, V> {
     private final Map<Key<? extends V>, V> delegate;
@@ -44,10 +41,9 @@ public class TypedMap<V> implements Map<Key<? extends V>, V> {
      *                              (<a href="Collection.html#optional-restrictions">optional</a>)
      */
     @SuppressWarnings("unchecked")
-    public <T extends V> T get(Key<T> key) {
+    public <T> T get(Key<T> key) {
         return (T) delegate.get(key);
     }
-
 
     /**
      * Returns the value to which the specified key is mapped,
@@ -104,7 +100,7 @@ public class TypedMap<V> implements Map<Key<? extends V>, V> {
      * @throws IllegalArgumentException if some property of the specified key
      *                                  or value prevents it from being stored in this map
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "deprecation"})
     public <T extends V> T putTyped(Key<T> key, T value) {
         return (T) put(key, value);
     }
@@ -172,7 +168,7 @@ public class TypedMap<V> implements Map<Key<? extends V>, V> {
      *                              (<a href="Collection.html#optional-restrictions">optional</a>)
      */
     @SuppressWarnings("unchecked")
-    public <T extends V> T remove(Key<T> key) {
+    public <T> T remove(Key<T> key) {
         return (T) delegate.remove(key);
     }
 
@@ -235,6 +231,7 @@ public class TypedMap<V> implements Map<Key<? extends V>, V> {
      *                                  the specified map prevents it from being stored in this map
      */
     @Override
+    @SuppressWarnings("deprecation")
     public void putAll(Map<? extends Key<? extends V>, ? extends V> m) {
         if (m instanceof TypedMap) {
             delegate.putAll(m);
@@ -285,6 +282,10 @@ public class TypedMap<V> implements Map<Key<? extends V>, V> {
     @Override
     public void clear() {
         delegate.clear();
+    }
+
+    public TypedMap<V> unmodifiableView() {
+        return new TypedMap<>(Collections.unmodifiableMap(delegate));
     }
 
     @Override
