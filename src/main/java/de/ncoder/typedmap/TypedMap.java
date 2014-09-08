@@ -1,8 +1,9 @@
 package de.ncoder.typedmap;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class TypedMap<V> implements Map<Key<? extends V>, V> {
+public class TypedMap<V> implements Map<Key<? extends V>, V>, Serializable, Cloneable {
     private final Map<Key<? extends V>, V> delegate;
 
     public TypedMap() {
@@ -286,6 +287,17 @@ public class TypedMap<V> implements Map<Key<? extends V>, V> {
 
     public TypedMap<V> unmodifiableView() {
         return new TypedMap<>(Collections.unmodifiableMap(delegate));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return a clone of this instance using the same delegate Map as the original.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    protected TypedMap<V> clone() throws CloneNotSupportedException {
+        return (TypedMap<V>) super.clone();
     }
 
     @Override
