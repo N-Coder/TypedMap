@@ -44,7 +44,12 @@ public class Key<T> implements Serializable {
 
     @Override
     public String toString() {
-        return getIdentifier() + " [" + getClass() + "]";
+        String clazz = getValueClass().toString();
+        if (getIdentifier().equals(clazz)) {
+            return clazz;
+        } else {
+            return getIdentifier() + " [" + clazz + "]";
+        }
     }
 
     @Override
