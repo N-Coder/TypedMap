@@ -1,8 +1,26 @@
 apply plugin: "java"
-apply plugin: "maven"
+apply plugin: "maven-publish"
 
 group = "de.ncoder"
 version = "1.0.0"
 
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name 'Bintray'
+            url "https://api.bintray.com/maven/n-coder/maven/TypedMap"
+            credentials {
+                username = bintrayUsername
+                password = bintrayApiKey
+            }
+        }
+    }
+}
