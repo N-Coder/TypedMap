@@ -68,11 +68,11 @@ public class Key<T> implements Serializable {
 
     @Override
     public String toString() {
-        String clazz = getValueClass().toString();
+        String clazz = getValueClass().getName();
         if (getIdentifier().equals(clazz)) {
             return clazz;
         } else {
-            return getIdentifier() + " [" + clazz + "]";
+            return clazz + '#' + getIdentifier();
         }
     }
 
